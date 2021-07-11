@@ -13,17 +13,18 @@ class Square extends React.Component {
   changeNumber = () => {
     this.setState({value: Math.floor(Math.random() * 6) + 1});
   } 
+
   render() {
     return (
       <div>
-      <button className="square"
-        onClick={() => this.changeNumber()}>
+      <button className="square">
         {this.state.value}
       </button>
       <button className="throw"
       onClick={() => this.changeNumber()}>
         Throw this
       </button>
+      <input type="checkBox" onClick={()=>this.setState.key=true, this.props.gameManager}/>
       </div>
     );
   }
@@ -35,8 +36,11 @@ class Board extends React.Component {
       squares: []
     };
   }
+  gameManager = () =>{
+    console.log("asdasdasd")
+  }
   renderSquare(i) {
-    return <Square value={this.state.squares[i]}/>;
+    return <Square gameManager = {this.gameManager} value={this.state.squares[i]}/>;
   }
 
   render() {
@@ -48,6 +52,7 @@ class Board extends React.Component {
   
     return (
       <div>
+     
         <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
