@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect,useState,checkBox } from "react";
 import React from "react";
 import ReactDOM from 'react-dom';
 
@@ -6,7 +6,7 @@ class Square extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      key: null,
+      key: false,
       value: null,
     };
   }
@@ -24,7 +24,7 @@ class Square extends React.Component {
       onClick={() => this.changeNumber()}>
         Throw this
       </button>
-      <input type="checkBox" onClick={()=>this.setState.key=true, this.props.gameManager}/>
+      <input type="checkBox" onClick={()=>this.props.gameManager(this.state.key,this)}/>
       </div>
     );
   }
@@ -36,19 +36,16 @@ class Board extends React.Component {
       squares: []
     };
   }
-  gameManager = () =>{
-    console.log("asdasdasd")
-  }
-  renderSquare(i) {
-    return <Square gameManager = {this.gameManager} value={this.state.squares[i]}/>;
-  }
 
+  renderSquare(i) {
+    this.state.squares.concat(i);// Esto no lo deberia hacerla linea de abajo?
+    return <Square value={this.state.squares[i]} gameManager = {this.gameManager}/>;
+  }
+  throwAll = () =>{
+    this.state.squares.foreach (dice => (dice.changeNumber()))
+  }
   render() {
     const status = 'Puntaje:';
-
-  const throwAll = () =>{
-      this.state.squares.foreach (dice => (dice.changeNumber()))
-    }
   
     return (
       <div>
@@ -60,13 +57,19 @@ class Board extends React.Component {
           {this.renderSquare(2)}
           {this.renderSquare(3)}
           {this.renderSquare(4)}
-          <button onClick ={()=>this.state.squares.foreach(dice => dice.changeNumber()) }>
+          <button onClick ={()=>this.state.squares.map((dice) => dice.changeNumber()) }>
             Throw all
           </button>
         </div>
-        
       </div>
     );
+  }
+  gameManager = (verify,dice) =>{
+    const gameDice = this.state.squares;
+    dice.setState({key:!dice.state.key})
+    console.log(verify.toString());
+    gameDice.filter(dice => dice.state.key === true );
+    console.log(gameDice.map(dice=>dice.state.key.toString()))
   }
 }
 
