@@ -30,7 +30,7 @@ class Square extends React.Component {
       <button className="square">
         {this.state.value}
       </button>
-      <button className="throw"
+      <button className="throw" href = "autoClick"
       onClick={() => this.changeNumber()}>
         Throw this
       </button>
@@ -43,7 +43,8 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: []
+      squares: [],
+      diceGames:[]
     };
   }
   renderSquare(pos) {
@@ -65,7 +66,6 @@ class Board extends React.Component {
   
     return (
       <div>
-     
         <div className="status">{puntaje}</div>
         <div className="tirada">{tirada}</div>
         <div className="juegos">{juegos}</div>
@@ -75,7 +75,11 @@ class Board extends React.Component {
           {this.renderSquare(2)}
           {this.renderSquare(3)}
           {this.renderSquare(4)}
-          <button onClick ={()=>this.state.squares.forEach((dice) => dice.changeNumber()) }>
+          <button onClick ={()=>this.state.squares.forEach((dice) => 
+           {if (!dice.state.key){
+              {dice.changeNumber()}
+            }}
+            )}>
             Throw all
           </button>
         </div>
@@ -85,9 +89,9 @@ class Board extends React.Component {
   gameManager = (dice) =>{
     const gameDice = this.state.squares;
     this.actSquares(dice);
-    gameDice.filter(dice => dice.state.key === true );
+    gameDice.filter(dice => dice.state.key === true);
+    this.setState({diceGames:gameDice})
     console.log(this.state.squares.map(dice=>dice.state.value))
-    
   }
   actSquares = (square)=>{
     const squaresAct = this.state.squares.slice();
@@ -99,11 +103,6 @@ class Board extends React.Component {
       squaresAct.push(square);
     }
     this.setState({squares:squaresAct}); 
-      /*const squaresAct= this.state.squares.slice();
-      squaresAct.map(dice=> {if(dice.props.index==square.props.index){dice.setState(square.state)}})
-      squaresAct[square.props.index].setState(square.state) //ENCONTRAR FORMA DE AGREGAR DADOS EN LA LISTA Y QUE SIEMPRE SEAN 5
-      squaresAct.push(square);
-      this.setState({squares : squaresAct});*/
   };
 }
 
